@@ -1,0 +1,136 @@
+# %% Imports
+from utils import DataLoader
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import confusion_matrix, recall_score, precision_score, f1_score, accuracy_score
+import shap
+import numpy as np
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using device: {device}")
+if device.type == 'cuda':
+    print(f"GPU Name: {torch.cuda.get_device_name(0)}")
+
+# %% Load and preprocess data
+data_loader = DataLoader()
+data_loader.load_dataset()
+data_loader.preprocess_data()
+# Split the data for evaluation
+X_train, X_test, y_train, y_test = data_loader.get_data_split()
+# Oversample the train data
+X_train, y_train = data_loader.oversample(X_train, y_train)
+
+feature_names = X_test.columns.tolist()
+
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# Convert to PyTorch Tensors
+X_train_tensor = torch.tensor(X_train_scaled, dtype=torch.float32).to(device)
+y_train_tensor = torch.tensor(y_train.values, dtype=torch.long).to(device)
+X_test_tensor = torch.tensor(X_test_scaled, dtype=torch.float32).to(device)
+y_test_tensor = torch.tensor(y_test.values, dtype=torch.long).to(device)
+
+print(X_train_tensor.shape)
+print(X_test_tensor.shape)
+
+
+# %% Fit blackbox model
+class StrokeModel(nn.Module):
+    def __init__(self, input_size):
+        super(StrokeModel, self).__init__()
+
+        # Layer 1
+        self.layer1 = nn.Linear(input_size, 64)
+        self.bn1 = nn.BatchNorm1d(64)
+        self.relu1 = nn.ReLU()
+        self.drop1 = nn.Dropout(0.3)
+
+        # Layer 2
+        self.layer2 = nn.Linear(64, 32)
+        self.bn2 = nn.BatchNorm1d(32)
+        self.relu2 = nn.ReLU()
+        self.drop2 = nn.Dropout(0.3)
+
+        # Layer 3
+        self.layer3 = nn.Linear(32, 2)
+
+    def forward(self, x):
+        x = self.drop1(self.relu1(self.bn1(self.layer1(x))))
+        x = self.drop2(self.relu2(self.bn2(self.layer2(x))))
+        x = self.layer3(x)
+        return x
+
+
+model = StrokeModel(input_size=X_train_tensor.shape[1]).to(device)
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.AdamW(model.parameters(), lr=0.001)
+
+epochs = 50
+for epoch in range(epochs):
+    model.train()
+    optimizer.zero_grad()
+    outputs = model(X_train_tensor)
+    loss = criterion(outputs, y_train_tensor)
+    loss.backward()
+    optimizer.step()
+
+    if (epoch + 1) % 10 == 0:
+        print(f'Epoch [{epoch + 1}/{epochs}], Loss: {loss.item():.4f}')
+
+model.eval()
+with torch.no_grad():
+    test_outputs = model(X_test_tensor)
+    _, predicted = torch.max(test_outputs.data, 1)
+
+    cm = confusion_matrix(y_test_tensor.cpu().numpy(), predicted.cpu().numpy())
+    recall_c1 = recall_score(y_test_tensor.cpu().numpy(), predicted.cpu().numpy(), pos_label=1)
+    precision_c1 = precision_score(y_test_tensor.cpu().numpy(), predicted.cpu().numpy(), pos_label=1)
+    f1_macro = f1_score(y_test_tensor.cpu().numpy(), predicted.cpu().numpy(), average='macro')
+    accuracy = accuracy_score(y_test_tensor.cpu().numpy(), predicted.cpu().numpy())
+
+    print(f"\nConfusion Matrix:\n{cm}")
+    print(f"Recall (Finding Strokes): {recall_c1}")
+    print(f"Precision (Trustworthiness): {precision_c1}")
+    print(f"F1 Score: {f1_macro}")
+    print(f"Accuracy: {accuracy}\n")
+
+
+# # %% Create SHAP explainer
+# background = X_train_tensor[np.random.choice(X_train_tensor.shape[0], 100, replace=False)]
+# explainer = shap.DeepExplainer(model, background)
+#
+# # Calculate shapley values for test data
+# start_index = 0
+# end_index = 10
+# # check_additivity=False because BatchNorm can cause slight precision errors
+# shap_values_single = explainer.shap_values(X_test_tensor[start_index:end_index], check_additivity=False)
+#
+# # %% >> Visualize local predictions
+# # Force plot
+# for i in range(end_index):
+#     sample_tensor = X_test_tensor[start_index + i: start_index + i + 1]
+#     with torch.no_grad():
+#         output = model(sample_tensor)
+#         prediction = torch.argmax(output, dim=1).item()
+#     print(f"Sample {i} NN predicted: {prediction}")
+#     shap.force_plot(explainer.expected_value[1],
+#                     shap_values_single[1][i],
+#                     X_test[start_index + i: start_index + i + 1],
+#                     feature_names=feature_names,
+#                     matplotlib=True,
+#                     show=False)  # for values
+#     plt.savefig(f"deep2_force_plot_{i}.png", bbox_inches='tight', dpi=300)
+#
+# # %% >> Visualize global features
+# # Feature summary
+# plt.figure()
+# shap_values_global = explainer.shap_values(X_test_tensor, check_additivity=False)
+# shap.summary_plot(shap_values_global[1], X_test, feature_names=feature_names, show=False)
+# plt.savefig('deep2_summary_plot.png', bbox_inches='tight', dpi=300)
