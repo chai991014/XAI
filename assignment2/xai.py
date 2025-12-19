@@ -324,6 +324,23 @@ def calculate_confidence_drop(model, image_tensor, heatmap, target_class):
     return score_orig, score_pert, (score_orig - score_pert)
 
 
+def calculate_rrs(heatmap, percentile=90):
+    total_relevance = np.sum(heatmap)
+    if total_relevance == 0:
+        return 0
+
+    # Identify the threshold for the most relevant region (ROI)
+    threshold = np.percentile(heatmap, percentile)
+    roi_mask = heatmap >= threshold
+
+    # Sum relevance inside the ROI
+    roi_relevance = np.sum(heatmap[roi_mask])
+
+    # RRS = Energy in ROI / Total Energy
+    rrs_score = roi_relevance / total_relevance
+    return round(rrs_score, 4)
+
+
 def xai(model, test_dataset, cat_folder, cat_name, img_id, metrics_list):
     try:
         image_tensor, label_idx = test_dataset[img_id]
@@ -341,8 +358,12 @@ def xai(model, test_dataset, cat_folder, cat_name, img_id, metrics_list):
         lrp_relevances = lrp_relevances.permute(0, 2, 3, 1).detach().cpu().numpy()[0]
         lrp_heatmap = np.interp(lrp_relevances, (lrp_relevances.min(), lrp_relevances.max()), (0, 1))[:, :, 0]
 
+        # Metric: LRP RRS
+        _, _, lrp_drop = calculate_confidence_drop(model, image_tensor, lrp_heatmap, pred_idx)
+
         # Metric: LRP Confidence Drop
         _, _, lrp_drop = calculate_confidence_drop(model, image_tensor, lrp_heatmap, pred_idx)
+        lrp_rrs = calculate_rrs(lrp_heatmap)
 
         # --- METHOD 2: Grad-CAM ---
         target_layer = model.vgg16.features[28]
@@ -351,6 +372,10 @@ def xai(model, test_dataset, cat_folder, cat_name, img_id, metrics_list):
 
         # Metric: Grad-CAM Confidence Drop
         _, _, gradcam_drop = calculate_confidence_drop(model, image_tensor, gradcam_heatmap, pred_idx)
+
+        # Metric: Grad-CAM RRS
+        _, _, gradcam_drop = calculate_confidence_drop(model, image_tensor, gradcam_heatmap, pred_idx)
+        gradcam_rrs = calculate_rrs(gradcam_heatmap)
 
         # --- METHOD 3: Guided Backprop ---
         model = CNNModel().to(device)
@@ -363,6 +388,10 @@ def xai(model, test_dataset, cat_folder, cat_name, img_id, metrics_list):
         # Metric: GBP Confidence Drop
         _, _, gbp_drop = calculate_confidence_drop(model, image_tensor, gbp_heatmap, pred_idx)
 
+        # Metric: GBP RRS
+        _, _, gbp_drop = calculate_confidence_drop(model, image_tensor, gbp_heatmap, pred_idx)
+        gbp_rrs = calculate_rrs(gbp_heatmap)
+
         # --- SAVE METRICS ---
         metrics_list.append({
             "Image_ID": img_id,
@@ -370,8 +399,11 @@ def xai(model, test_dataset, cat_folder, cat_name, img_id, metrics_list):
             "True_Label": true_label,
             "Pred_Label": pred_label,
             "LRP_Conf_Drop": round(lrp_drop, 4),
+            "LRP_RRS": lrp_rrs,
             "GradCAM_Conf_Drop": round(gradcam_drop, 4),
-            "GBP_Conf_Drop": round(gbp_drop, 4)
+            "GradCAM_RRS": gradcam_rrs,
+            "GBP_Conf_Drop": round(gbp_drop, 4),
+            "GBP_RRS": gbp_rrs
         })
 
         # --- PLOTTING ---
