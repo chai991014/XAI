@@ -362,7 +362,6 @@ def xai(model, test_dataset, cat_folder, cat_name, img_id, metrics_list):
         _, _, lrp_drop = calculate_confidence_drop(model, image_tensor, lrp_heatmap, pred_idx)
 
         # Metric: LRP Confidence Drop
-        _, _, lrp_drop = calculate_confidence_drop(model, image_tensor, lrp_heatmap, pred_idx)
         lrp_rrs = calculate_rrs(lrp_heatmap)
 
         # --- METHOD 2: Grad-CAM ---
@@ -374,7 +373,6 @@ def xai(model, test_dataset, cat_folder, cat_name, img_id, metrics_list):
         _, _, gradcam_drop = calculate_confidence_drop(model, image_tensor, gradcam_heatmap, pred_idx)
 
         # Metric: Grad-CAM RRS
-        _, _, gradcam_drop = calculate_confidence_drop(model, image_tensor, gradcam_heatmap, pred_idx)
         gradcam_rrs = calculate_rrs(gradcam_heatmap)
 
         # --- METHOD 3: Guided Backprop ---
@@ -389,7 +387,6 @@ def xai(model, test_dataset, cat_folder, cat_name, img_id, metrics_list):
         _, _, gbp_drop = calculate_confidence_drop(model, image_tensor, gbp_heatmap, pred_idx)
 
         # Metric: GBP RRS
-        _, _, gbp_drop = calculate_confidence_drop(model, image_tensor, gbp_heatmap, pred_idx)
         gbp_rrs = calculate_rrs(gbp_heatmap)
 
         # --- SAVE METRICS ---
@@ -399,11 +396,11 @@ def xai(model, test_dataset, cat_folder, cat_name, img_id, metrics_list):
             "True_Label": true_label,
             "Pred_Label": pred_label,
             "LRP_Conf_Drop": round(lrp_drop, 4),
-            "LRP_RRS": lrp_rrs,
+            "LRP_RRS": round(lrp_rrs, 4),
             "GradCAM_Conf_Drop": round(gradcam_drop, 4),
-            "GradCAM_RRS": gradcam_rrs,
+            "GradCAM_RRS": round(gradcam_rrs, 4),
             "GBP_Conf_Drop": round(gbp_drop, 4),
-            "GBP_RRS": gbp_rrs
+            "GBP_RRS": round(gbp_rrs, 4)
         })
 
         # --- PLOTTING ---
@@ -418,20 +415,20 @@ def xai(model, test_dataset, cat_folder, cat_name, img_id, metrics_list):
 
         # LRP
         plt.subplot(1, 4, 2)
-        plt.title(f"LRP (Drop: {lrp_drop:.2f})")
+        plt.title(f"LRP (Drop: {lrp_drop:.2f} | RRS: {lrp_rrs:.2f})")
         plt.imshow(lrp_heatmap, cmap="seismic")
         plt.axis('off')
 
         # Grad-CAM
         plt.subplot(1, 4, 3)
-        plt.title(f"Grad-CAM (Drop: {gradcam_drop:.2f})")
+        plt.title(f"Grad-CAM (Drop: {gradcam_drop:.2f} | RRS: {gradcam_rrs:.2f})")
         plt.imshow(image_tensor.permute(1, 2, 0).detach().cpu().numpy(), alpha=1.0)  # Background
         plt.imshow(gradcam_heatmap, cmap='jet', alpha=0.5)  # Overlay
         plt.axis('off')
 
         # Guided Backprop
         plt.subplot(1, 4, 4)
-        plt.title(f"Guided BP (Drop: {gbp_drop:.2f})")
+        plt.title(f"Guided BP (Drop: {gbp_drop:.2f} | RRS: {gbp_rrs:.2f})")
         plt.imshow(gbp_heatmap, cmap='gray')
         plt.axis('off')
 
