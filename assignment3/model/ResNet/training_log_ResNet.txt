@@ -1,0 +1,42 @@
+Starting training for ResNet...
+Epoch 1/75 | Train Loss: 0.1148 | Train Acc: 0.9575 | Val Loss: 0.0584 | Val Acc: 0.9780
+Epoch 2/75 | Train Loss: 0.0712 | Train Acc: 0.9742 | Val Loss: 0.1112 | Val Acc: 0.9542
+Epoch 3/75 | Train Loss: 0.0421 | Train Acc: 0.9849 | Val Loss: 0.0518 | Val Acc: 0.9828
+Epoch 4/75 | Train Loss: 0.0313 | Train Acc: 0.9892 | Val Loss: 0.0911 | Val Acc: 0.9694
+Epoch 5/75 | Train Loss: 0.0360 | Train Acc: 0.9864 | Val Loss: 0.0497 | Val Acc: 0.9819
+Epoch 6/75 | Train Loss: 0.0275 | Train Acc: 0.9914 | Val Loss: 0.0506 | Val Acc: 0.9828
+Epoch 7/75 | Train Loss: 0.0192 | Train Acc: 0.9945 | Val Loss: 0.0500 | Val Acc: 0.9838
+Epoch 8/75 | Train Loss: 0.0124 | Train Acc: 0.9955 | Val Loss: 0.0481 | Val Acc: 0.9809
+Epoch 9/75 | Train Loss: 0.0259 | Train Acc: 0.9926 | Val Loss: 0.0591 | Val Acc: 0.9838
+Epoch 10/75 | Train Loss: 0.0181 | Train Acc: 0.9933 | Val Loss: 0.0427 | Val Acc: 0.9885
+Epoch 11/75 | Train Loss: 0.0239 | Train Acc: 0.9909 | Val Loss: 0.0534 | Val Acc: 0.9819
+Epoch 12/75 | Train Loss: 0.0117 | Train Acc: 0.9959 | Val Loss: 0.0607 | Val Acc: 0.9809
+Epoch 13/75 | Train Loss: 0.0100 | Train Acc: 0.9971 | Val Loss: 0.0401 | Val Acc: 0.9895
+Epoch 14/75 | Train Loss: 0.0120 | Train Acc: 0.9967 | Val Loss: 0.0551 | Val Acc: 0.9799
+Epoch 15/75 | Train Loss: 0.0075 | Train Acc: 0.9974 | Val Loss: 0.0370 | Val Acc: 0.9924
+Epoch 16/75 | Train Loss: 0.0069 | Train Acc: 0.9976 | Val Loss: 0.0281 | Val Acc: 0.9933
+Epoch 17/75 | Train Loss: 0.0117 | Train Acc: 0.9959 | Val Loss: 0.0527 | Val Acc: 0.9876
+Epoch 18/75 | Train Loss: 0.0205 | Train Acc: 0.9926 | Val Loss: 0.0386 | Val Acc: 0.9885
+Epoch 19/75 | Train Loss: 0.0081 | Train Acc: 0.9971 | Val Loss: 0.0445 | Val Acc: 0.9885
+Epoch 20/75 | Train Loss: 0.0131 | Train Acc: 0.9950 | Val Loss: 0.0561 | Val Acc: 0.9809
+Epoch 21/75 | Train Loss: 0.0081 | Train Acc: 0.9974 | Val Loss: 0.0266 | Val Acc: 0.9924
+Epoch 22/75 | Train Loss: 0.0014 | Train Acc: 1.0000 | Val Loss: 0.0320 | Val Acc: 0.9914
+Epoch 23/75 | Train Loss: 0.0088 | Train Acc: 0.9964 | Val Loss: 0.0300 | Val Acc: 0.9914
+Epoch 24/75 | Train Loss: 0.0078 | Train Acc: 0.9974 | Val Loss: 0.0562 | Val Acc: 0.9809
+Epoch 25/75 | Train Loss: 0.0140 | Train Acc: 0.9945 | Val Loss: 0.0409 | Val Acc: 0.9885
+Epoch 26/75 | Train Loss: 0.0163 | Train Acc: 0.9955 | Val Loss: 0.0979 | Val Acc: 0.9694
+Epoch 27/75 | Train Loss: 0.0106 | Train Acc: 0.9957 | Val Loss: 0.1020 | Val Acc: 0.9723
+Epoch 28/75 | Train Loss: 0.0077 | Train Acc: 0.9969 | Val Loss: 0.0364 | Val Acc: 0.9933
+Epoch 29/75 | Train Loss: 0.0062 | Train Acc: 0.9981 | Val Loss: 0.0390 | Val Acc: 0.9924
+Epoch 30/75 | Train Loss: 0.0012 | Train Acc: 0.9998 | Val Loss: 0.0370 | Val Acc: 0.9924
+Epoch 31/75 | Train Loss: 0.0109 | Train Acc: 0.9969 | Val Loss: 0.0406 | Val Acc: 0.9885
+Early stopping triggered at Epoch 31
+
+============================================================
+FINAL SUMMARY: ResNet
+Total Time: 2021.03s
+Best Epoch Saved: 21
+Model Path: ./model/ResNet\best_model.pth
+CSV Metrics: ./model/ResNet\metrics_log.csv
+Text Log: ./model/ResNet\training_log_ResNet.txt
+============================================================

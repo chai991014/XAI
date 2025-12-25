@@ -1,0 +1,31 @@
+Starting training for DenseNet...
+Epoch 1/75 | Train Loss: 0.1244 | Train Acc: 0.9622 | Val Loss: 0.0600 | Val Acc: 0.9742
+Epoch 2/75 | Train Loss: 0.0620 | Train Acc: 0.9744 | Val Loss: 0.0946 | Val Acc: 0.9656
+Epoch 3/75 | Train Loss: 0.0435 | Train Acc: 0.9847 | Val Loss: 0.0342 | Val Acc: 0.9904
+Epoch 4/75 | Train Loss: 0.0314 | Train Acc: 0.9885 | Val Loss: 0.0321 | Val Acc: 0.9885
+Epoch 5/75 | Train Loss: 0.0303 | Train Acc: 0.9897 | Val Loss: 0.0359 | Val Acc: 0.9876
+Epoch 6/75 | Train Loss: 0.0297 | Train Acc: 0.9909 | Val Loss: 0.0324 | Val Acc: 0.9895
+Epoch 7/75 | Train Loss: 0.0085 | Train Acc: 0.9981 | Val Loss: 0.0401 | Val Acc: 0.9847
+Epoch 8/75 | Train Loss: 0.0207 | Train Acc: 0.9931 | Val Loss: 0.0478 | Val Acc: 0.9838
+Epoch 9/75 | Train Loss: 0.0160 | Train Acc: 0.9947 | Val Loss: 0.0280 | Val Acc: 0.9914
+Epoch 10/75 | Train Loss: 0.0137 | Train Acc: 0.9947 | Val Loss: 0.0274 | Val Acc: 0.9943
+Epoch 11/75 | Train Loss: 0.0115 | Train Acc: 0.9959 | Val Loss: 0.0443 | Val Acc: 0.9857
+Epoch 12/75 | Train Loss: 0.0112 | Train Acc: 0.9974 | Val Loss: 0.0446 | Val Acc: 0.9847
+Epoch 13/75 | Train Loss: 0.0105 | Train Acc: 0.9959 | Val Loss: 0.0485 | Val Acc: 0.9799
+Epoch 14/75 | Train Loss: 0.0112 | Train Acc: 0.9962 | Val Loss: 0.0382 | Val Acc: 0.9876
+Epoch 15/75 | Train Loss: 0.0102 | Train Acc: 0.9964 | Val Loss: 0.0752 | Val Acc: 0.9752
+Epoch 16/75 | Train Loss: 0.0042 | Train Acc: 0.9988 | Val Loss: 0.0443 | Val Acc: 0.9876
+Epoch 17/75 | Train Loss: 0.0026 | Train Acc: 0.9990 | Val Loss: 0.0393 | Val Acc: 0.9933
+Epoch 18/75 | Train Loss: 0.0040 | Train Acc: 0.9986 | Val Loss: 0.0666 | Val Acc: 0.9876
+Epoch 19/75 | Train Loss: 0.0102 | Train Acc: 0.9964 | Val Loss: 0.0453 | Val Acc: 0.9895
+Epoch 20/75 | Train Loss: 0.0186 | Train Acc: 0.9940 | Val Loss: 0.0613 | Val Acc: 0.9819
+Early stopping triggered at Epoch 20
+
+============================================================
+FINAL SUMMARY: DenseNet
+Total Time: 1326.28s
+Best Epoch Saved: 10
+Model Path: ./model/DenseNet\best_model.pth
+CSV Metrics: ./model/DenseNet\metrics_log.csv
+Text Log: ./model/DenseNet\training_log_DenseNet.txt
+============================================================
