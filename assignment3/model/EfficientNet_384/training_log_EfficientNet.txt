@@ -1,0 +1,33 @@
+Start training for EfficientNet...
+Epoch 1/75 | Train Loss: 0.1614 | Train Acc: 0.9460 | Val Loss: 0.1574 | Val Acc: 0.9398
+Epoch 2/75 | Train Loss: 0.0610 | Train Acc: 0.9795 | Val Loss: 0.0529 | Val Acc: 0.9809
+Epoch 3/75 | Train Loss: 0.0488 | Train Acc: 0.9802 | Val Loss: 0.0325 | Val Acc: 0.9876
+Epoch 4/75 | Train Loss: 0.0308 | Train Acc: 0.9907 | Val Loss: 0.0391 | Val Acc: 0.9876
+Epoch 5/75 | Train Loss: 0.0286 | Train Acc: 0.9897 | Val Loss: 0.1079 | Val Acc: 0.9580
+Epoch 6/75 | Train Loss: 0.0237 | Train Acc: 0.9919 | Val Loss: 0.0393 | Val Acc: 0.9876
+Epoch 7/75 | Train Loss: 0.0210 | Train Acc: 0.9926 | Val Loss: 0.0448 | Val Acc: 0.9866
+Epoch 8/75 | Train Loss: 0.0148 | Train Acc: 0.9950 | Val Loss: 0.0351 | Val Acc: 0.9895
+Epoch 9/75 | Train Loss: 0.0077 | Train Acc: 0.9978 | Val Loss: 0.0384 | Val Acc: 0.9895
+Epoch 10/75 | Train Loss: 0.0103 | Train Acc: 0.9971 | Val Loss: 0.0327 | Val Acc: 0.9914
+Epoch 11/75 | Train Loss: 0.0088 | Train Acc: 0.9974 | Val Loss: 0.0335 | Val Acc: 0.9933
+Epoch 12/75 | Train Loss: 0.0101 | Train Acc: 0.9967 | Val Loss: 0.0257 | Val Acc: 0.9924
+Epoch 13/75 | Train Loss: 0.0134 | Train Acc: 0.9955 | Val Loss: 0.0350 | Val Acc: 0.9904
+Epoch 14/75 | Train Loss: 0.0048 | Train Acc: 0.9986 | Val Loss: 0.0553 | Val Acc: 0.9847
+Epoch 15/75 | Train Loss: 0.0080 | Train Acc: 0.9976 | Val Loss: 0.0520 | Val Acc: 0.9838
+Epoch 16/75 | Train Loss: 0.0208 | Train Acc: 0.9938 | Val Loss: 0.0666 | Val Acc: 0.9828
+Epoch 17/75 | Train Loss: 0.0064 | Train Acc: 0.9988 | Val Loss: 0.0297 | Val Acc: 0.9904
+Epoch 18/75 | Train Loss: 0.0060 | Train Acc: 0.9971 | Val Loss: 0.0476 | Val Acc: 0.9876
+Epoch 19/75 | Train Loss: 0.0052 | Train Acc: 0.9986 | Val Loss: 0.0418 | Val Acc: 0.9885
+Epoch 20/75 | Train Loss: 0.0087 | Train Acc: 0.9971 | Val Loss: 0.0601 | Val Acc: 0.9819
+Epoch 21/75 | Train Loss: 0.0043 | Train Acc: 0.9986 | Val Loss: 0.0736 | Val Acc: 0.9847
+Epoch 22/75 | Train Loss: 0.0086 | Train Acc: 0.9976 | Val Loss: 0.0276 | Val Acc: 0.9943
+Early stopping triggered at Epoch 22
+
+============================================================
+FINAL SUMMARY: EfficientNet
+Total Time: 10000.63s
+Best Epoch Saved: 12
+Model Path: ./model/EfficientNet\best_model.pth
+CSV Metrics: ./model/EfficientNet\metrics_log.csv
+Text Log: ./model/EfficientNet\training_log_EfficientNet.txt
+============================================================
